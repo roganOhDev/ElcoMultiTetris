@@ -1,0 +1,21 @@
+name: CIServer
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Connect to EC2 instance
+    uses: appleboy/ssh-action@master
+    with:
+      host: {Ec2 ip}
+      username: {Ec2 username}
+      key: {key}
+      port: {port}
+      script: |
+	../../executeGitPull
+        ../../executeServer
+
