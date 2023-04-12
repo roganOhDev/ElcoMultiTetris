@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ohdonggeun/workspace/client/cmake-build-debug"
+			"value" : "/Users/ohdonggeun/workspace/multiTetris/client/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -479,7 +479,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/ohdonggeun/workspace/client/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/ohdonggeun/workspace/multiTetris/client/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -539,7 +539,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ohdonggeun/workspace/client"
+			"value" : "/Users/ohdonggeun/workspace/multiTetris/client"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -1111,7 +1111,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/ohdonggeun/workspace/client/cmake-build-debug"
+			"value" : "/Users/ohdonggeun/workspace/multiTetris/client/cmake-build-debug"
 		},
 		{
 			"name" : "client_IS_TOP_LEVEL",
@@ -1135,7 +1135,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/ohdonggeun/workspace/client"
+			"value" : "/Users/ohdonggeun/workspace/multiTetris/client"
 		}
 	],
 	"kind" : "cache",

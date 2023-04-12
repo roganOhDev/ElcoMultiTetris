@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/ohdonggeun/workspace/client/cmake-build-debug",
-		"source" : "/Users/ohdonggeun/workspace/client"
+		"build" : "/Users/ohdonggeun/workspace/multiTetris/client/cmake-build-debug",
+		"source" : "/Users/ohdonggeun/workspace/multiTetris/client"
 	},
 	"version" : 
 	{
