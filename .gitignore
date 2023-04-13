@@ -48,4 +48,5 @@ out/
 **.dSYM
 cmake-build-debug
 **/cmake-build-debug
+**/cmake-build-debug
 CMakeLists.txt
