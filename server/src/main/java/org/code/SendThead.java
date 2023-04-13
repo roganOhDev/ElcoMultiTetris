@@ -1,30 +1,31 @@
 package org.code;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class SendThead extends Thread{
+public class SendThead extends Thread {
 
     private final Socket socket;
     private Scanner scanner = new Scanner(System.in);
 
-    public SendThead(Socket socket){
+    public SendThead(Socket socket) {
         this.socket = socket;
     }
 
     @Override
     public void run() {
         try {
-            DataOutputStream sendWriter = new DataOutputStream(socket.getOutputStream());
             String sendString;
-            while(true){
+            while (true) {
                 sendString = scanner.nextLine();
-                sendWriter.writeUTF(sendString);
-                sendWriter.flush();
+                final var pw = new PrintWriter(socket.getOutputStream());
+
+                pw.println(sendString);
+                pw.flush();
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,4 +1,4 @@
-package socketecho;
+package org.code;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,16 +21,21 @@ public class socketServer {
     }
 
     public void init() {
+
         try {
             serverSocket = new ServerSocket(8981); // 현재 아이피로 8981포트를 사용하여 서버 오픈
+
             System.out.println("Server is ready");
             System.out.println("connect clinet...");
+
 
             clientSocket = serverSocket.accept(); //
             System.out.println("Client has accepted");
 
+            SendThead sendThead = new SendThead(clientSocket);
+            sendThead.run();
+
             br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); // 클라이언트로 부터 데이터를 읽어올 준비
-            pw = new PrintWriter(clientSocket.getOutputStream());// 클라이언트로 부터 데이터를 보낼 준비
 
             String readData = ""; // 클라이언트로 부터 읽어온 데이터를 저장할 공간
 
@@ -41,7 +46,6 @@ public class socketServer {
             }
             clientSocket.close();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
