@@ -42,3 +42,9 @@ out/
 
 ### Python ###
 **/__pycache__
+
+
+### CPP ###
+**.dSYM
+cmake-build-debug
+CMakeLists.txt
