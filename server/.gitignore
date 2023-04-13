@@ -40,3 +40,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### CPP ###
+main.dSYM
+cmake-build-debug
+CMakeLists.txt
