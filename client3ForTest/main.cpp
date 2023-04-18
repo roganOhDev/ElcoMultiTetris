@@ -1,53 +1,103 @@
-#include <cstdio>
 #include <iostream>
-#include <cstdlib>
-#include <unistd.h>
 #include <cstring>
+#include <unistd.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <netinet/in.h>
-#include <netdb.h>
+#include <sys/select.h>
 
-void error(const char *msg)
-{
-    perror(msg);
-    exit(0);
-}
+#define PORT 8888
+#define MAX_BUFFER_SIZE 1024
 
-int main(int argc, char *argv[])
+int main(int argc, char const *argv[])
 {
-    int portno = 9876;
-    int sockfd, n;
+    int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    struct hostent *server;
+    char buffer[MAX_BUFFER_SIZE] = {0};
+    char message[MAX_BUFFER_SIZE] = {0};
 
-    char buffer[256];
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
-        error("ERROR opening socket");
-    server = gethostbyname("127.0.0.1");
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
-        exit(0);
+    // Create socket
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        std::cerr << "Socket creation error" << std::endl;
+        return -1;
     }
-    bzero((char *) &serv_addr, sizeof(serv_addr));
+
+    // Set up server address
+    memset(&serv_addr, '0', sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr,
-          (char *)&serv_addr.sin_addr.s_addr,
-            server->h_length);
-    serv_addr.sin_port = htons(portno);
-    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
-    error("ERROR connecting");
-    printf("Please enter the message: ");
-    bzero(buffer,256);
-    fgets(buffer,255,stdin);
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0)
-        error("ERROR writing to socket");
-    bzero(buffer,256);
-//    n = read(sockfd, buffer, 255);
-//    if (n < 0)
-//        error("ERROR reading from socket");
-//    printf("%s\n", buffer);
-//    close(sockfd);
+    serv_addr.sin_port = htons(PORT);
+
+    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+
+
+    // Convert IPv4 and IPv6 addresses from text to binary form
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0)
+    {
+        std::cerr << "Invalid address/ Address not supported" << std::endl;
+        return -1;
+    }
+
+    // Connect to server
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    {
+        std::cerr << "Connection failed" << std::endl;
+        return -1;
+    }
+
+    // Add socket to select set
+    fd_set read_fds, write_fds;
+    FD_ZERO(&read_fds);
+    FD_ZERO(&write_fds);
+    FD_SET(sock, &read_fds);
+    FD_SET(STDIN_FILENO, &read_fds);
+
+    while (true)
+    {
+        int activity = select(std::max(sock, STDIN_FILENO) + 1, &read_fds, &write_fds, NULL, NULL);
+        if ((activity < 0) && (errno!=EINTR))
+        {
+            std::cerr << "Select error" << std::endl;
+            return -1;
+        }
+
+        if (FD_ISSET(sock, &read_fds))
+        {
+            valread = read(sock, buffer, MAX_BUFFER_SIZE);
+            if (valread <= 0)
+            {
+                std::cerr << "Server disconnected" << std::endl;
+                break;
+            }
+
+            std::cout << "Received data: " << buffer << std::endl;
+
+            memset(buffer, 0, MAX_BUFFER_SIZE);
+        }
+
+        if (FD_ISSET(STDIN_FILENO, &read_fds))
+        {
+            if (fgets(message, MAX_BUFFER_SIZE, stdin) == NULL)
+            {
+                std::cerr << "Error reading standard input" << std::endl;
+                break;
+            }
+
+            if (send(sock, message, strlen(message), 0) < 0)
+            {
+                std::cerr << "Send failed" << std::endl;
+                return -1;
+            }
+        }
+
+        FD_ZERO(&read_fds);
+        FD_SET(sock, &read_fds);
+        FD_SET(STDIN_FILENO, &read_fds);
+    }
+
+    // Close socket
+    close(sock);
+
     return 0;
 }
