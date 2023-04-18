@@ -2,6 +2,7 @@ package org.code;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -16,11 +17,20 @@ public class ReceiveThread extends Thread {
     @Override
     public void run() {
         try {
-            DataInputStream tmpbuf = new DataInputStream(socket.getInputStream());
-            String receiveString;
+//            final var tmpbuf = new InputStream(socket.getInputStream());
+//            String receiveString;
             while (true) {
-                receiveString = tmpbuf.readUTF();
-                System.out.println("상대방 : " + receiveString);
+                InputStream inputStream = socket.getInputStream();
+                byte[] buffer = new byte[1024];
+                int numBytes = inputStream.read(buffer);
+
+                if (numBytes != -1) {
+                    String receivedData = new String(buffer, 0, numBytes);
+                    System.out.println("Received data: " + receivedData);
+                }
+
+//                receiveString = tmpbuf.readUTF();
+//                System.out.println("상대방 : " + receiveString);
             }
         } catch (SocketException e1) {
             System.out.println("상대방 연결이 종료되었습니다.");
