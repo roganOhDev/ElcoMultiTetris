@@ -1,6 +1,5 @@
 package org.code;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -26,11 +25,9 @@ public class ReceiveThread extends Thread {
 
                 if (numBytes != -1) {
                     String receivedData = new String(buffer, 0, numBytes);
-                    System.out.println("Received data: " + receivedData);
+                    System.out.println("Received data from "+ socket.getInetAddress() + " : " + socket.getPort() + " : " + receivedData);
                 }
 
-//                receiveString = tmpbuf.readUTF();
-//                System.out.println("상대방 : " + receiveString);
             }
         } catch (SocketException e1) {
             System.out.println("상대방 연결이 종료되었습니다.");
