@@ -1,8 +1,5 @@
 package org.code;
 
-import ch.qos.logback.classic.LoggerContext;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,8 +25,8 @@ public class Main {
     }
 
     static public void broadcast(String message, Socket newSock) {
-        for (int i=0; i < clients.size(); i++){
-            if(clients.get(i).getClientSocket() != newSock) {
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getClientSocket() != newSock) {
                 final var printWriter = messageSenders.get(i).getPrintWriter();
 
                 printWriter.println(message);

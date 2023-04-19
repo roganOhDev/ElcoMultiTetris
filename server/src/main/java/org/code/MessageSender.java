@@ -7,11 +7,16 @@ import java.net.Socket;
 public class MessageSender {
     private final PrintWriter printWriter;
 
-    public MessageSender(Socket socket) throws IOException {
+    public MessageSender(final Socket socket) throws IOException {
         this.printWriter = new PrintWriter(socket.getOutputStream());
     }
 
     public PrintWriter getPrintWriter(){
         return printWriter;
+    }
+
+    public void send(final String message) {
+        printWriter.println(message);
+        printWriter.flush();
     }
 }

@@ -1,5 +1,6 @@
 package org.code;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ClientHandler {
 
     public ClientHandler(Socket clientSocket, List<MessageSender> messageSenders) {
         this.clientSocket = clientSocket;
+
         try {
             log.info("ip : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort() + " 와 연결되었습니다.");
 
@@ -25,6 +27,15 @@ public class ClientHandler {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public int close() {
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            log.warn("Error While Closing Socket : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort());
+            return -1;
         }
     }
 
