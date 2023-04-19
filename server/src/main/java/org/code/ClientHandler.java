@@ -1,24 +1,28 @@
 package org.code;
 
 import java.net.Socket;
+import java.util.List;
+
+import static org.code.Log.log;
 
 public class ClientHandler {
     private final Socket clientSocket;
-//    private BufferedReader input;
-//    private PrintWriter output;
 
 
     public Socket getClientSocket() {
         return clientSocket;
     }
-    public ClientHandler(Socket clientSocket) {
+
+    public ClientHandler(Socket clientSocket, List<MessageSender> messageSenders) {
         this.clientSocket = clientSocket;
         try {
-            System.out.println("ip : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort() + " 와 연결되었습니다.");
+            log.info("ip : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort() + " 와 연결되었습니다.");
+
             ReceiveThread receiveThread = new ReceiveThread(clientSocket);
             receiveThread.start();
-            SendThead sendThead = new SendThead(clientSocket);
-            sendThead.start();
+
+            messageSenders.add(new MessageSender(clientSocket));
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
