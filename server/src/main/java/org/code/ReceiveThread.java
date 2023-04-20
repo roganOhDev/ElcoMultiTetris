@@ -10,6 +10,7 @@ import static org.code.Log.log;
 public class ReceiveThread extends Thread {
 
     private final Socket socket;
+    private final Utils utils = new Utils();
 
     public ReceiveThread(Socket socket) {
         this.socket = socket;
@@ -24,16 +25,24 @@ public class ReceiveThread extends Thread {
                 int numBytes = inputStream.read(buffer);
 
                 if (numBytes != -1) {
-                    String receivedData = new String(buffer, 0, numBytes);
-                    log.info("Received data from "+ socket.getInetAddress() + " : " + socket.getPort() + " : " + receivedData);
+                    receivedData(buffer, numBytes);
                 }
 
             }
         } catch (SocketException e1) {
-            log.info("상대방 연결이 종료되었습니다.");
+            log.error("Error While Receving Message : ");
+
+//            utils.removeClient(Main.clients, Main.messageSenders, 1);
         } catch (IOException e2) {
             e2.printStackTrace();
         }
+    }
+
+    private String receivedData(byte[] buffer, int numBytes){
+        final var receivedData = new String(buffer, 0, numBytes);
+        log.info("Received data from "+ socket.getInetAddress() + " : " + socket.getPort() + " : " + receivedData);
+
+        return receivedData;
     }
 
 }

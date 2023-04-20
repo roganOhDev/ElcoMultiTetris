@@ -18,7 +18,7 @@ public class ClientHandler {
         this.clientSocket = clientSocket;
 
         try {
-            log.info("ip : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort() + " 와 연결되었습니다.");
+            log.info("Client Connected : " + getInfo());
 
             ReceiveThread receiveThread = new ReceiveThread(clientSocket);
             receiveThread.start();
@@ -30,14 +30,16 @@ public class ClientHandler {
         }
     }
 
-    public int close() {
+    public void close() {
         try {
             clientSocket.close();
         } catch (IOException e) {
-            log.warn("Error While Closing Socket : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort());
-            return -1;
+            log.warn("Error While Closing Socket : " + getInfo());
         }
-        return 0;
+    }
+
+    public String getInfo() {
+        return clientSocket.getInetAddress() + " : " + clientSocket.getPort();
     }
 
 }

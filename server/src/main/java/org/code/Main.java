@@ -4,47 +4,31 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
-    private static final List<ClientHandler> clients = new ArrayList<>();
-    private static final List<MessageSender> messageSenders = new ArrayList<>();
+    private static final int PORT = 8888;
+    private static final String NEW_CLIENT_MESSAGE = "Here's New Challenger!";
 
-    public static void main(String[] args) throws IOException {
-        int port = 8888;
+    public static final ArrayList<ClientHandler> clients = new ArrayList<>();
+    public static final ArrayList<MessageSender> messageSenders = new ArrayList<>();
 
-        ServerSocket socketServer = new ServerSocket(port);
-        while (true) {
-            Socket sock = socketServer.accept();
+    private static final Utils utils = new Utils();
 
-            final var clientHandler = new ClientHandler(sock, messageSenders);
-            clients.add(clientHandler);
+    public static void main(String[] args) {
+        try (var socketServer = new ServerSocket(PORT)) {
 
-            broadcast("here's new challenger", sock);
-        }
-    }
+            while (true) {
+                Socket sock = socketServer.accept();
 
-    static public void broadcast(String message, Socket newSock) {
-        for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getClientSocket() != newSock) {
-                try {
-                    final var printWriter = messageSenders.get(i).getPrintWriter();
+                final var clientHandler = new ClientHandler(sock, messageSenders);
+                clients.add(clientHandler);
 
-                    printWriter.println(message);
-                    printWriter.flush();
-                } catch (Exception e) {
-                    Log.log.error("Error While Broadcasting Message : " + e.getMessage());
-                    removeClient(i);
-                }
+                utils.broadCastThatNewClient(clients, messageSenders, NEW_CLIENT_MESSAGE, sock);
             }
+
+        } catch (IOException e) {
+            Log.log.error("Error While Creating Server Socket : " + e.getMessage());
         }
     }
 
-    static private void removeClient(final int clientIndex) {
-        Log.log.warn("Removing Client : " + clients.get(clientIndex).getClientSocket().getInetAddress() + " : " + clients.get(clientIndex).getClientSocket().getPort());
-        clients.get(clientIndex).close();
-        clients.remove(clientIndex);
-        messageSenders.remove(clientIndex);
-        Log.log.info("Client Removed");
-    }
 }
