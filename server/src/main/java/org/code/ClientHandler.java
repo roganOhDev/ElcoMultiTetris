@@ -37,6 +37,7 @@ public class ClientHandler {
             log.warn("Error While Closing Socket : " + clientSocket.getInetAddress() + " : " + clientSocket.getPort());
             return -1;
         }
+        return 0;
     }
 
 }

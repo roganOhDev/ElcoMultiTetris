@@ -27,11 +27,24 @@ public class Main {
     static public void broadcast(String message, Socket newSock) {
         for (int i = 0; i < clients.size(); i++) {
             if (clients.get(i).getClientSocket() != newSock) {
-                final var printWriter = messageSenders.get(i).getPrintWriter();
+                try {
+                    final var printWriter = messageSenders.get(i).getPrintWriter();
 
-                printWriter.println(message);
-                printWriter.flush();
+                    printWriter.println(message);
+                    printWriter.flush();
+                } catch (Exception e) {
+                    Log.log.error("Error While Broadcasting Message : " + e.getMessage());
+                    removeClient(i);
+                }
             }
         }
+    }
+
+    static private void removeClient(final int clientIndex) {
+        Log.log.warn("Removing Client : " + clients.get(clientIndex).getClientSocket().getInetAddress() + " : " + clients.get(clientIndex).getClientSocket().getPort());
+        clients.get(clientIndex).close();
+        clients.remove(clientIndex);
+        messageSenders.remove(clientIndex);
+        Log.log.info("Client Removed");
     }
 }
