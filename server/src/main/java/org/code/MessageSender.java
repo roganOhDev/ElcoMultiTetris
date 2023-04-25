@@ -11,6 +11,7 @@ public class MessageSender {
         this.printWriter = new PrintWriter(socket.getOutputStream());
     }
 
+
     public void send(final String message) {
         printWriter.println(message);
         printWriter.flush();
