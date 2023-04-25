@@ -14,6 +14,7 @@ public class MessageSender {
     public PrintWriter getPrintWriter() {
         return printWriter;
     }
+
     public void send(final String message) {
         printWriter.println(message);
         printWriter.flush();
