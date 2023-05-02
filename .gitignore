@@ -73,20 +73,20 @@ CMakeLists.txt
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+TetrisC/[Dd]ebug/
+TetrisC/[Dd]ebugPublic/
+TetrisC/[Rr]elease/
+TetrisC/[Rr]eleases/
+TetrisC/x64/
+TetrisC/x86/
+TetrisC/[Ww][Ii][Nn]32/
+TetrisC/[Aa][Rr][Mm]/
+TetrisC/[Aa][Rr][Mm]64/
+TetrisC/bld/
+TetrisC/[Bb]in/
+TetrisC/[Oo]bj/
+TetrisC/[Ll]og/
+TetrisC/[Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
