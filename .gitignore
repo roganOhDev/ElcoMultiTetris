@@ -54,5 +54,5 @@ CMakeLists.txt
 
 
 ### Csharp ###
-*/bin/
-*/obj/
+**/bin/
+**/obj/
