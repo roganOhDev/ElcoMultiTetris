@@ -1,3 +1,1 @@
-cd client
-g++ socket/socketClient.cpp main.cpp -o main
-./main
+dotnet run
