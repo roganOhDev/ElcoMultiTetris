@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using System.Threading;
 
 namespace AvaloniaApplication3
 {
@@ -11,8 +12,10 @@ namespace AvaloniaApplication3
         [STAThread]
         public static void Main(string[] args)
         {
-            // new SocketClient().Run();
-            
+            var socketClient = new SocketClient();
+            var thread = new Thread(socketClient.Run);
+            thread.Start();
+
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
