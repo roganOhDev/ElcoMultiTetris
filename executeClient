@@ -1,4 +1,2 @@
 cd clientController
 dotnet run
-
-tmp
