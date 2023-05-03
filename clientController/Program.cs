@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using System.Text;
 using System.Threading;
 
 namespace AvaloniaApplication3
@@ -15,9 +16,21 @@ namespace AvaloniaApplication3
             var socketClient = new SocketClient();
             var thread = new Thread(socketClient.Run);
             thread.Start();
-
+            // SocketClient2.Client client = new SocketClient2.Client();
+            // client.Connect();
+            // var msg = Encoding.UTF8.GetBytes("Hello World!");
+        
+            // client.Send(msg);
+            
+            
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+
+            
+            // if (client.ao.Buffer.ToString() != null)
+            // {
+                // Console.Out.Write(client.ao.Buffer);
+            // }
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
