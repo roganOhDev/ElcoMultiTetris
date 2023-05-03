@@ -13,9 +13,9 @@ namespace AvaloniaApplication3
         [STAThread]
         public static void Main(string[] args)
         {
-            // var socketClient = new SocketClient();
-            // var thread = new Thread(socketClient.Run);
-            // thread.Start();
+            var socketClient = new SocketClient();
+            var thread = new Thread(socketClient.Run);
+            thread.Start();
             // SocketClient2.Client client = new SocketClient2.Client();
             // client.Connect();
             // var msg = Encoding.UTF8.GetBytes("Hello World!");

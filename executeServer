@@ -1,0 +1,4 @@
+cd server
+./gradlew clean
+./gradlew build
+ java -cp build/libs/server-1.0-SNAPSHOT.jar:lib/slf4j-api-1.7.4.jar:lib/slf4j-simple-1.7.4.jar org.code.Main
